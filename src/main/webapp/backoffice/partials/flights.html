@@ -1,0 +1,199 @@
+<script type="text/ng-template" id="advancedSearchModal.html">
+    <h3>Advanced search</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns" ng-if="validationError != 0">
+						<alert type="success" class="alert">Please enter search criteria
+			 			</alert>	
+					</div>
+					<div class="large-12 columns">
+						<label>Crew type
+								<input type="text" ng-disabled="true" placeholder="Crew type" ng-model="crewType"/>
+						</label>
+					</div>
+					<div class="large-12 columns">
+								<label>Select criteria
+							  		<select ng-model="selectedCriteria"   
+							    	ng-options="i as (i.name) for i in criterias"
+							    	ng-change="changeCriteria(selectedCriteria)">				
+							  		</select>
+								</label>
+					</div>
+					<div class="large-12 columns">
+							<label>Criteria value
+								<input type="text" ng-change="changeCriteriaValue(criteriaValue)" placeholder="Search criteria" ng-model="criteriaValue"/>
+							</label>
+					</div>		
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirm()">Search</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+
+<script type="text/ng-template" id="addNewFlight.html">
+
+    <h3 ng-if="type == 'cabin_crew'">New flight</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns">
+						<alert type="success" class="info">Note that you can use flight from your schedule to 
+						create active flight. 
+			 			</alert>	
+					</div>
+					<hr>
+					<div class="large-12 columns" ng-if="validationError != 0">
+						<alert type="success" class="alert">{{generateErrorMsg(validationError)}}
+			 			</alert>	
+					</div>
+					<div class="large-12 columns">
+							<label>Flight number
+								<input type="text" placeholder="Flight number" ng-model="newFlight.flightNumber"/>
+							</label>
+					</div>
+					<hr>
+					<div class="large-12 columns">
+							<label>Use data from scheduled flight
+							  <select ng-model="scheduledFlightSelected"   
+							    ng-options="i as (i.name) for i in scheduledFlights"
+							    ng-change="changeItScheduled(scheduledFlightSelected)">				
+							  </select>
+							</label>
+					</div>
+					<hr>
+					<div class="large-6 columns">
+							<label>Departure airport [IATA code]
+								<input type="text" maxlength="3" class="airport-input" ng-model="newFlight.departure"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Arrival airport [IATA code]
+								<input type="text" maxlength="3" class="airport-input" ng-model="newFlight.arrival"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Departure date
+								<input type="text" class="airport-input" ng-model="newFlight.departure"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Local departure time
+								<input type="text" class="span2" value="12:05" id="dpt" />	
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Flight length [h]
+								<input type="text"  type='number' step='0.25' min='0.25' placeholder="i.e. 10.5"  ng-model="newFlight.length"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Local departure time
+								<input type="text" maxlength="3" class="airport-input" ng-model="newFlight.arrival"/>
+							</label>
+					</div>
+					<div class="large-12 columns">
+								<label>Add crew
+							  		<select ng-model="selectedCrew"   
+							    	ng-options="i as (i.name) for i in crews"
+							    	ng-change="changeItLanguage(selectedLanguage)">				
+							  		</select>
+								</label>
+					</div>
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirm()">Create</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+
+
+
+
+<header class="header">
+	<ul class="header-subnav">
+		<li><a href="/backoffice#/schedule">Schedule</a></li>
+		<!-- class="is-active"  -->
+		<li><a href="/backoffice#/fleet">Fleet</a></li>
+		<li><a class="is-active">Active flights</a></li>
+		<li><a href="#">History</a></li>
+		<li><a href="/backoffice#/crew">Crew database</a></li>
+		<li><a href="#">System logs</a></li>
+		<li><a ng-click="logout()">Logout</a></li>
+	</ul>
+</header>
+
+<div class="row main-content-holder">
+	<h4>Active flights</h4>
+	<div class="large-12 columns">
+			<hr>
+			  <div class="large-12 columns">
+				 		<button class="large-6 columns button info"><i class="fi-zoom-in"></i> Advanced search</button>
+				 		<button class="large-6 columns button" ng-click="addNewFlight()"><i class="fi-check"></i> Add new flight</button>
+			  </div>
+			  <hr>
+			  <div class="large-12 columns">
+			  	 <div>
+					 	<pagination direction-links="false" 
+					 		items-per-page="10" boundary-links="true" 
+					 		total-items="flightNum" 
+					 		page="currentPage.activeFlights" max-size="5">
+					 	</pagination>
+				 </div>
+			  	 <table>
+			  	 	<thead>
+			  	 		<tr>
+			  	 			<th width="200">Local departure time</th>
+			  	 			<th width="200">Flight number</th>
+			  	 			<th width="100">Departure</th>
+			  	 			<th width="100">Arrival</th>
+			  	 			<th width="100">Crew assigned</th>
+			  	 			<th width="200"></th>
+			  	 		</tr>
+			  	 	</thead>
+			  	 	<tbody>
+			  	 		<tr ng-repeat="flight in activeFlightsPage">
+			  	 			<td>{{flight.localDepartureTime}}</td>
+			  	 			<td>{{flight.flightNumber}}</td>
+			  	 			<td>{{flight.departure}}</td>
+			  	 			<td>{{flight.arrival}}</td>
+			  	 			<td>{{flight.assignedCrew.flight_crew.length}} 
+			  	 				/ {{flight.assignedCrew.cabin_crew.length}}</td>
+			  	 			<td><button type="button" class="button info">Details</button></td>
+			  	 		</tr>
+			  	 	</tbody>
+			  	 </table>
+			  </div>
+	</div>
+</div>
+
+
+
+<footer class="row">
+	<div class="large-12 columns">
+		<hr />
+		<div class="row">
+			<div class="large-6 columns">
+				<p>&copy; Copyright Sasa Radovanovic 2016.</p>
+			</div>
+			<div class="large-6 columns">
+				<ul class="inline-list right">
+					<li><a href="#">Flight operations</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>

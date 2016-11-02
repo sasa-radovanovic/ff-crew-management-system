@@ -1,0 +1,81 @@
+
+
+<div class="row">
+	<div class="large-9 columns">
+		<ul class="button-group">
+			<li><a ng-click="switchContent('upcoming')" class="button">Upcoming schedules</a></li>
+			<li><a ng-click="switchContent('history')" class="button secondary">History</a></li>
+			<li><a ng-click="switchContent('profile')" class="button info">Profile</a></li>
+			<li><a ng-click="logout()" class="button alert">Logout</a></li>
+		</ul>
+	</div>
+	<div class="large-3 columns">
+		<h1 class="right">
+			<img src="img/airline-logo.png" />
+		</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="large-12 columns" ng-show="activeContent == 'upcoming'">
+		<h4>Upcoming schedules</h4>
+		<div class="main-profile-holder">
+			<div class="panel">
+				<div data-alert class="alert-box" ng-show="loading">
+					Loading...
+				</div>
+				<div data-alert class="alert-box" ng-if="!loading && crewObject.assignedRoutes.length == 0">
+					No upcoming routes in your schedule
+				</div>
+				<table ng-show="!loading && crewObject.assignedRoutes.length > 0">
+					<thead>
+						<tr>
+							<th width="200">Local Departure Time</th>
+							<th width="100">Flight length [h]</th>
+							<th width="100">Flight number</th>
+							<th width="100">Departure</th>
+							<th width="100">Arrival</th>
+							<th width="250">Flight ID</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="flight in crewObject.assignedRoutes">
+							<td>{{flight.localDepartureTime}}</td>
+							<td>{{flight.length}}</td>
+							<td>{{flight.flightNumber}}</td>
+							<td>{{flight.departure}}</td>
+							<td>{{flight.arrival}}</td>
+							<td>{{flight.routeId}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="large-12 columns" ng-show="activeContent == 'history'">
+		<h4>History</h4>
+	</div>
+	<div class="large-12 columns" ng-show="activeContent == 'profile'">
+		<h4>Profile</h4>
+	</div>
+</div>
+
+
+<footer class="row">
+	<div class="large-12 columns">
+		<hr />
+		<div class="row">
+			<div class="large-6 columns">
+				<p>Username: {{user.username}} | Crew ID:
+					{{crewObject.companyId}}</p>
+			</div>
+			<div class="large-6 columns">
+				<ul class="inline-list right">
+					<li><a href="#">Airline website</a></li>
+					<li><a href="#">HR</a></li>
+					<li><a href="#">Crew management operations</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>

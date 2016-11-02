@@ -1,0 +1,254 @@
+<script type="text/ng-template" id="deleteAirplaneType.html">
+    <h3>Confirm airplane type to delete</h3>
+    <div class="panel">
+		<p>
+			{{msg}}
+		</p>
+	</div>
+	<button class="button alert" ng-click="confirmDelete()">Confirm</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+<script type="text/ng-template" id="createAirplaneType.html">
+    <h3>Create new airplane type</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns" ng-if="validationError == true">
+						<alert type="success" class="alert">Please fill all the data
+			 			</alert>	
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Manufacturer
+								<input type="text" placeholder="i.e. Airbus, Boeing, Bombardier, ATR..." ng-model="newAirplaneTypeObject.manufacturer"/>
+						</label>	
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>Type
+								<input type="text" placeholder="i.e. A380, 747-800, CRJ900, 72-500..." ng-model="newAirplaneTypeObject.type"/>
+						</label>	
+					</div>
+				</div>
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirmDelete()">Add</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+<script type="text/ng-template" id="deleteAirplane.html">
+    <h3>Confirm airplane to delete</h3>
+    <div class="panel">
+		<p>
+			{{msg}}
+		</p>
+	</div>
+	<button class="button alert" ng-click="confirmDelete()">Confirm</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+<script type="text/ng-template" id="addNewAirplane.html">
+    <h3>Add new airplane to the fleet</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns" ng-if="validationError != 0">
+						<alert type="success" class="alert">{{generateErrorText(validationError)}}
+			 			</alert>	
+					</div>
+					<div class="large-6 columns">
+							<label>Airplane registration
+								<input type="text" placeholder="i.e. A6-EEC, N82157, JU-ARA" ng-model="newAirplaneObject.registration"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>MSN Number
+								<input type="text" placeholder="i.e. 817, B2665" ng-model="newAirplaneObject.msnNumber"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Delivery date
+								<input type="text" placeholder="dd/MM/YYYY" ng-model="newAirplaneObject.deliveryDate"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Total seat capacity
+								<input type='number' step='1' min='1' ng-model="newAirplaneObject.seatCapacity"/>
+							</label>
+					</div>
+					<div class="large-12 columns">
+							<label>Select Box
+							  <select ng-model="airplaneTypeSelect"   
+							     ng-options="i as (i.manufacturer + ' ' + i.type) for i in airplaneTypes"
+							     ng-change="changeIt(airplaneTypeSelect)">
+							  </select>
+							</label>
+					</div>
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirm()">Add</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+<script type="text/ng-template" id="editAirplane.html">
+    <h3>Airplane data</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns" ng-if="validationError == 1">
+						<alert type="danger" class="alert">Enter a valid registration.
+			 			</alert>	
+					</div>
+					<div class="large-12 columns" ng-if="validationError == -100">
+						<alert type="danger" class="alert">Internal Server Error occured.
+			 			</alert>	
+					</div>
+					<div class="large-6 columns">
+							<label>Airplane registration
+								<input type="text" placeholder="i.e. A6-EEC, N82157, JU-ARA" ng-model="airplane.registration"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>MSN Number
+								<input type="text" placeholder="i.e. 817, B2665" ng-disabled="true" ng-model="airplane.msnNumber"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Delivery date
+								<input type="text" placeholder="dd/MM/YYYY" ng-disabled="true" ng-model="airplane.deliveryDate"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Total seat capacity
+								<input type='number' step='1' min='1' ng-model="airplane.seatCapacity"/>
+							</label>
+					</div>
+					<div class="large-12 columns">
+							<label>Delivery date
+								<input type="text" placeholder="Airplane type" ng-disabled="true" ng-model="airplaneType"/>
+							</label>
+					</div>
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirm()">Save changes</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+<header class="header">
+	<ul class="header-subnav">
+		<li><a href="/backoffice#/schedule">Schedule</a></li>
+		<!-- class="is-active"  -->
+		<li><a class="is-active">Fleet</a></li>
+		<li><a href="#">Active flights</a></li>
+		<li><a href="#">History</a></li>
+		<li><a href="#">Crew database</a></li>
+		<li><a href="#">System logs</a></li>
+		<li><a ng-click="logout()">Logout</a></li>
+	</ul>
+</header>
+
+
+<div class="row main-content-holder">
+	<h4>Our fleet <button class="button pull-right-button" ng-click="addNewAirplane()"><i class="fi-check"></i> Add new airplane</button></h4>
+	<div class="large-12 columns">
+			<hr>
+			<alert type="success" ng-show="showTip"><strong>[TIP] What is this and how it works?</strong></br> 
+			  This page enables you to save your up-to-date schedule by weekly days.
+			   You can then use inputs from schedule to create active flight more quickly and easier.
+			   <a ng-click="closeTip()" class="close">&times;</a>
+			 </alert>
+			 <alert type="danger" ng-show="loadingFleet">Loading airplanes in fleet...
+			 </alert>
+			 <alert type="danger" class="alert" ng-show="!loadingFleet && planesInFleet.length == 0">No airplanes in the fleet.
+			 </alert>
+
+				 <div class="large-4 columns plane-card" ng-repeat="plane in planesInFleet">
+				 	<div class="panel plane-panel" ng-show="plane.id != '-1'">
+				 		<div class="large-1 columns icon-plane-holder">
+				 			<img class="icon-plane" src="backoffice/img/plane-blue-icon.png" />
+				 		</div>
+				 		<div class="large-9 columns">
+				 			<p class="plane-registration-label">{{plane.registration}}</p>
+				 			<p class="plane-type-holder">{{plane.airplaneType.manufacturer}} {{plane.airplaneType.type}}</p>
+				 		</div>
+				 	</div>
+				 	<div class="panel plane-panel blanco-holder" ng-show="plane.id == '-1'">
+				 	</div>
+				 	<div class="panel plane-panel columns action-buttons-holder">
+				 		<button class="button" ng-if="plane.id != '-1'" ng-click="editAirplane(plane)"><i class="fi-pencil"></i> Edit</button>
+				 		<button class="button alert" ng-if="plane.id != '-1'" ng-click="deleteAirplane(plane)"><i class="fi-x"></i> Delete</button>
+				 	</div>
+				 </div>
+	</div>
+</div>
+
+<div class="row main-content-holder">
+	<h4>Airplane type database</h4>
+	<div class="large-12 columns">
+			<hr>
+			<alert type="info" class="info" ng-show="showTipAirplaneTypes"><strong>[TIP] What is this and how it works?</strong></br> 
+			  This page enables you to save your up-to-date schedule by weekly days.
+			   You can then use inputs from schedule to create active flight more quickly and easier.
+			   <a ng-click="closeTipAirplaneTypes()" class="close">&times;</a>
+			 </alert>
+			 <div class="large-9 columns table-types-holder">
+			 	<table class="large-12 columns">
+			 		<thead>
+			 			<th>Manufacturer</th>
+			 			<th>Type</th>
+			 			<th></th>
+			 		</thead>
+			 		<tbody>
+			 			<tr ng-repeat="airplaneType in airplaneTypes">
+				 			<td>{{airplaneType.manufacturer}}</td>
+				 			<td>{{airplaneType.type}}</td>
+				 			<td><button class="button alert" ng-click="deleteAirplaneType(airplaneType)"><i class="fi-x"></i></br> Remove</button></td>
+				 		</tr>
+			 		</tbody>
+			 	</table>
+			 </div>
+			 <div class="large-3 columns">
+			 	<button class="large-12 columns button add-airplane-type-button" ng-click="addNewAirplaneType()">
+			 		<i class="fi-plus"></i></br>
+			 		Add new airplane type
+			 	</button>
+			 </div>
+	</div>
+</div>
+
+
+
+<footer class="row">
+	<div class="large-12 columns">
+		<hr />
+		<div class="row">
+			<div class="large-6 columns">
+				<p>&copy; Copyright Sasa Radovanovic 2016.</p>
+			</div>
+			<div class="large-6 columns">
+				<ul class="inline-list right">
+					<li><a href="#">Flight operations</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>

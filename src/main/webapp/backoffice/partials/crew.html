@@ -1,0 +1,411 @@
+<script type="text/ng-template" id="advancedSearchModal.html">
+    <h3 ng-if="type == 'cabin_crew'">Advanced search</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns" ng-if="validationError != 0">
+						<alert type="success" class="alert">Please enter search criteria
+			 			</alert>	
+					</div>
+					<div class="large-12 columns">
+						<label>Crew type
+								<input type="text" ng-disabled="true" placeholder="Crew type" ng-model="crewType"/>
+						</label>
+					</div>
+					<div class="large-12 columns">
+								<label>Select criteria
+							  		<select ng-model="selectedCriteria"   
+							    	ng-options="i as (i.name) for i in criterias"
+							    	ng-change="changeCriteria(selectedCriteria)">				
+							  		</select>
+								</label>
+					</div>
+					<div class="large-12 columns">
+							<label>Criteria value
+								<input type="text" ng-change="changeCriteriaValue(criteriaValue)" placeholder="Search criteria" ng-model="criteriaValue"/>
+							</label>
+					</div>		
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirm()">Search</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+
+
+<script type="text/ng-template" id="addNewCrew.html">
+    <h3 ng-if="type == 'cabin_crew'">New cabin crew</h3>
+	<h3 ng-if="type == 'flight_crew'">New flight crew</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns">
+						<alert type="success" class="info">Note that crew member will have to activate
+							account by following link received in the mail entered here. Therefore, 
+							please review data before creating account.
+			 			</alert>	
+					</div>
+					<hr>
+					<div class="large-12 columns" ng-if="validationError != 0">
+						<alert type="success" class="alert">{{generateErrorMsg(validationError)}}
+			 			</alert>	
+					</div>
+					<div class="large-6 columns">
+							<label>First Name
+								<input type="text" placeholder="First name" ng-model="newCrew.firstName"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Last Name
+								<input type="text" placeholder="Last name" ng-model="newCrew.lastName"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Company ID
+								<input type="text" placeholder="i.e. 10000101" ng-model="newCrew.companyId"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>E-mail (activation mail will be sent)
+								<input type='text' placeholder='example@my-airline.com' ng-model="newCrew.mail"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Username
+								<input type="text" placeholder="Username" ng-model="newCrew.username"/>
+							</label>
+					</div>
+					<hr>
+					<div class="large-10 columns">
+							<label>Country of origin
+							  <select ng-model="countryOfOrigin"   
+							    ng-options="i.code as (i.name) for i in countries"
+							    ng-change="changeIt(countryOfOrigin)">				
+							  </select>
+							</label>
+					</div>
+					<div class="large-2 columns">
+						 <img class="country-flag" src="{{generateCountryFlag(countryOfOrigin)}}" ng-if="selectedCountryOfOrigin != undefined" />
+					</div>
+					<hr>
+					<div class="large-12 columns">
+								<label>Add languages spoken
+							  		<select ng-model="selectedLanguage"   
+							    	ng-options="i as (i.name) for i in languages"
+							    	ng-change="changeItLanguage(selectedLanguage)">				
+							  		</select>
+								</label>
+					</div>
+					<div class="large-12 columns">
+					<table ng-if="selectedLanguages.length > 0">
+			 			<thead>
+			 				<th width="200">Language code</th>
+			 				<th width="300">Language name</th>
+			 				<th width="300">Native name</th>
+							<th width="300"></th>
+			 			</thead>
+			 			<tbody>
+			 				<tr ng-repeat="lang in selectedLanguages">
+				 				<td>{{lang.code}}</td>
+				 				<td>{{lang.name}}</td>
+								<td>{{lang.nativeName}}</td>
+				 				<td><button class="button alert" ng-click="removeLang(lang)"><i class="fi-x"></i></br> Remove</button></td>
+				 			</tr>
+			 			</tbody>
+			 		</table>
+					</div>
+				
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="confirm()">Add</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+<script type="text/ng-template" id="editCrew.html">
+    <h3 ng-if="newCrew.crewType == 'cabin_crew'">Edit cabin crew</h3>
+	<h3 ng-if="newCrew.crewType == 'flight_crew'">Edit flight crew</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns">
+						<alert type="success" class="info">Note that removing flight from crew account will take immediate affect. 
+							For changing personal data, Save button must be clicked for changes to apply.
+			 			</alert>	
+					</div>
+					<hr>
+					<div class="large-12 columns" ng-if="validationError != 0">
+						<alert type="success" class="alert">{{generateErrorMsg(validationError)}}
+			 			</alert>	
+					</div>
+					<div class="large-6 columns">
+							<label>First Name
+								<input type="text" ng-disabled="true" placeholder="First name" ng-model="newCrew.firstName"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Last Name
+								<input type="text" ng-disabled="true" placeholder="Last name" ng-model="newCrew.lastName"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Company ID
+								<input type="text" ng-disabled="true" placeholder="i.e. 10000101" ng-model="newCrew.companyId"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>E-mail (activation mail will be sent)
+								<input type='text' ng-disabled="true" placeholder='example@my-airline.com' ng-model="newCrew.mail"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Username
+								<input type="text" ng-disabled="true" placeholder="Username" ng-model="newCrew.username"/>
+							</label>
+					</div>
+					<div class="large-6 columns">
+							<label>Country of origin
+								<select ng-model="newCrew.countryOfOrigin"   
+							    	ng-options="i.code as (i.name) for i in countries"
+							    	ng-change="changeIt(newCrew.countryOfOrigin)">				
+							  		</select>
+							</label>
+					</div>
+					<hr>
+					<div class="large-12 columns">
+								<label>Languages spoken </br>
+							  		<span ng-click="removeLanguage(lang)" class="alert label round language-badge" ng-repeat="lang in newCrew.languagesSpoken">{{lang}} <i class="fi-x"></i></span>
+								</label>
+					</div>
+					<div class="large-12 columns">
+								<label>Add languages spoken
+							  		<select ng-model="selectedLanguage"   
+							    	ng-options="i.code as (i.name) for i in languages"
+							    	ng-change="changeItLanguage(selectedLanguage)">				
+							  		</select>
+								</label>
+					</div>
+					<hr>
+					<accordion close-others="true">
+    					<accordion-group class="add-new-scheduled-heading" heading="Active flights">
+							<alert type="success" class="warning" ng-if="newCrew.assignedRoutes.length == 0">No assiged routes
+			 				</alert>
+      						<div class="row new-scheduled-flight-form-holder" ng-if="newCrew.assignedRoutes.length > 0">
+								<div class="large-12 columns">
+									<table>
+										<thead>
+											<tr>
+												<th width="200">Local departure time</th>
+												<th width="200">Flight number</th>
+												<th width="100">From</th>
+												<th width="100">To</th>
+												<th width="200"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="route in newCrew.assignedRoutes">
+												<td>{{route.localDepartureTime}}</td>
+												<td>{{route.flightNumber}}</td>
+												<td>{{route.departure}}</td>
+												<td>{{route.arrival}}</td>
+												<td><button type="button" class="button danger" ng-click="unassignRoute(route.routeId)">Unassign</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+    					</accordion-group>
+    					<accordion-group class="add-new-scheduled-heading" heading="Previous flights">
+      						<alert type="success" class="warning" ng-if="newCrew.pastRoutes.length == 0">No past routes
+			 				</alert>
+      						<div class="row new-scheduled-flight-form-holder" ng-if="newCrew.pastRoutes.length > 0">
+								<div class="large-12 columns new-scheduled-flight-form">
+									
+								</div>
+							</div>
+    					</accordion-group>
+					</accordion>
+				</div>
+							  
+			</form>
+		</p>
+	</div>
+	<button class="button" ng-click="saveCrewChanges()">Save</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+<script type="text/ng-template" id="deleteCrewModal.html">
+	<h3>Remove crew member</h3>
+    <div class="panel">
+		<p>
+			<form>
+				<div class="row">
+					<div class="large-12 columns" ng-if="error">
+						<alert type="success" class="alert">Error occured while deleting crew member.
+			 			</alert>	
+					</div>
+					<div class="large-12 columns" ng-if="deleting">
+						<alert type="success" class="info">Deleting in progress. Please wait...
+			 			</alert>	
+					</div>
+					<p>
+						Are you sure you want to remove crew member from the system?
+						Note that this will remove crew from all previously assigned routes/flights.
+					</p>	
+				</div>			  
+			</form>
+		</p>
+	</div>
+	<button class="button danger" ng-click="confirm()">Delete</button>
+    <button class="button secondary" ng-click="closeModal()">Cancel</button>
+</script>
+
+
+
+
+
+
+<header class="header">
+	<ul class="header-subnav">
+		<li><a href="/backoffice#/schedule">Schedule</a></li>
+		<!-- class="is-active"  -->
+		<li><a href="#">Fleet</a></li>
+		<li><a href="#">Active flights</a></li>
+		<li><a href="#">History</a></li>
+		<li><a class="is-active">Crew database</a></li>
+		<li><a href="#">System logs</a></li>
+		<li><a ng-click="logout()">Logout</a></li>
+	</ul>
+</header>
+
+<div class="row main-content-holder">
+	<h4>Crew Database</h4>
+	<div class="large-12 columns">
+		<hr>
+		<tabset> 
+			<tab select="changeContent('cabin')"> 
+				<tab-heading>
+					Cabin Crew ({{cabinCrewNumUnt}})
+				</tab-heading> 
+				<div class="large-12 columns crew-holder">
+					<div class="large-12 columns">
+				 		<button ng-click="advancedSearch('cabin_crew')" class="large-6 columns button info"><i class="fi-zoom-in"></i> Advanced search</button>
+				 		<button ng-click="addNewCrew('cabin_crew')" class="large-6 columns button"><i class="fi-check"></i> Add new cabin crew</button>
+				 	</div>
+				 	<hr>
+				 	<div class="large-12 columns">
+				 	<button class="button danger" ng-if="advancedSearchDone" ng-click="modalCancelAdvancedSearch()"><i class="fi-x"></i> {{advancedSearchObject.criteriaParam}} = {{advancedSearchObject.criteriaValue}}</button>
+					<div>
+					 	<pagination direction-links="false" 
+					 		items-per-page="10" boundary-links="true" 
+					 		total-items="cabinCrewNum" 
+					 		page="currentPage.cabin" max-size="5">
+					 	</pagination>
+				 	</div>
+					<table>
+					  <thead>
+					    <tr>
+					      <th width="200">Company ID</th>
+					      <th width="200">First Name</th>
+					      <th width="200">Last Name</th>
+					      <th width="200">Country</th>
+					      <th width="200">Flights</th>
+					      <th width="400"></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr ng-repeat="crew in loadedCabinCrew | orderBy:'companyId'">
+					    	<td>{{crew.companyId}}</td>
+					    	<td>{{crew.firstName}}</td>
+					    	<td>{{crew.lastName}}</td>
+					    	<td>{{crew.countryOfOrigin}}</td>
+					    	<td>{{crew.assignedRoutes.length}}</td>
+							<td>
+								<button class="button info small" ng-click="editCrew(crew)"><i class="fi-pencil"></i> Edit</button>
+								<button class="button alert small" ng-click="deleteCrew(crew)"><i class="fi-x"></i> Remove</button>
+							</td>
+					    </tr>
+					  </tbody>
+					</table>
+					</div>
+				</div>
+			</tab> 
+			<tab select="changeContent('flight')"> 
+				<tab-heading>
+					Flight Crew ({{flightCrewNumUnt}})
+				</tab-heading> 
+				<div class="large-12 columns crew-holder">
+					<div class="large-12 columns">
+				 		<button ng-click="advancedSearch('flight_crew')" class="large-6 columns button info"><i class="fi-zoom-in"></i> Advanced search</button>
+				 		<button class="large-6 columns button"><i class="fi-check"></i> Add new flight crew</button>
+				 	</div>
+				 	<hr>
+				 	<div class="large-12 columns">
+				 	<button class="button danger" ng-if="advancedSearchDone" ng-click="modalCancelAdvancedSearch()"><i class="fi-x"></i> {{advancedSearchObject.criteriaParam}} = {{advancedSearchObject.criteriaValue}}</button>
+					<div>
+					 	<pagination direction-links="false" 
+					 		items-per-page="10" boundary-links="true" 
+					 		total-items="flightCrewNum" 
+					 		page="currentPage.flight" max-size="5">
+					 	</pagination>
+				 	</div>
+					<table>
+					  <thead>
+					    <tr>
+					      <th width="200">Company ID</th>
+					      <th width="200">First Name</th>
+					      <th width="200">Last Name</th>
+					      <th width="200">Country</th>
+					      <th width="200">Flights</th>
+					      <th width="400"></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr ng-repeat="crew in loadedFlightCrew | orderBy:'companyId'">
+					    	<td>{{crew.companyId}}</td>
+					    	<td>{{crew.firstName}}</td>
+					    	<td>{{crew.lastName}}</td>
+					    	<td>{{crew.countryOfOrigin}}</td>
+					    	<td>{{crew.assignedRoutes.length}}</td>
+							<td>
+								<button class="button info small" ng-click="editCrew(crew)"><i class="fi-pencil"></i> Edit</button>
+								<button class="button alert small" ng-click="deleteCrew(crew)"><i class="fi-x"></i> Remove</button>
+							</td>
+					    </tr>
+					  </tbody>
+					</table>
+					</div>
+				</div>
+			</tab> 
+		</tabset>
+	</div>
+</div>
+
+
+<footer class="row">
+	<div class="large-12 columns">
+		<hr />
+		<div class="row">
+			<div class="large-6 columns">
+				<p>&copy; Copyright Sasa Radovanovic 2016.</p>
+			</div>
+			<div class="large-6 columns">
+				<ul class="inline-list right">
+					<li><a href="#">Flight operations</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>

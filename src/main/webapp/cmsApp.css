@@ -1,0 +1,74 @@
+.home-screen {
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.home-container {
+	margin-top: 200px !important;
+	height: 100% !important;
+	z-index: 1000 !important;
+}
+
+.home-middle-container {
+	border: 1px solid blue;
+	background-color: lightblue;
+}
+.home-container-content {
+	height: 100px;
+}
+
+.login-form {
+	border: 1px solid lightblue;
+	padding: 20px;
+}
+
+.float-right-btn {
+	float: right;
+}
+
+.login-container {
+	margin-top: 100px !important;
+}
+
+.home-img {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	z-index: -100 !important;
+}
+
+.header-position {
+	position: absolute;
+	right: 50px !important;
+	top: 20px !important;
+}
+
+.system-name-holder {
+	padding-top: 35px;
+}
+
+.content-home-image-section {
+	max-height: 400px;
+	max-width: 300px;
+	border: 1px solid lightblue;
+	padding: 5px;
+}
+
+.login-form-header {
+	margin-top: 20px;
+}
+
+.main-profile-holder {
+	border: 1px solid lightblue;
+	margin-top: 30px;
+	padding: 10px !important;
+}
+
+.my-footer {
+	position: absolute;
+	bottom: 0px;
+}
+
+.new-scheduled-flight-form-holder {
+	padding: 15px !important;
+}
