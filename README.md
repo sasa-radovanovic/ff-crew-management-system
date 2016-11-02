@@ -1,5 +1,5 @@
 # ff-crew-management-system (Frequent Flyers Crew Management System)
-Crew management system by Frequent Flyer
+Crew Management System for airlines
 
 First of all - **this is not commercial application and is still work in progress**. This web service emulates crew management process at a commercial airline. It consists of a backoffice (access limited only to administration personel) and crew portal (access for every crew).
 
