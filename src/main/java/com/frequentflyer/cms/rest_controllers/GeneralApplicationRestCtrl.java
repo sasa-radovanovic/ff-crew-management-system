@@ -3,19 +3,16 @@ package com.frequentflyer.cms.rest_controllers;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.HttpServletBean;
-
-import com.frequentflyer.cms.models.Crew;
 
 /**
  * 
@@ -31,16 +28,17 @@ public class GeneralApplicationRestCtrl {
 	
 	@RequestMapping(value="/invalidate",
 			method = RequestMethod.POST)
-	public ResponseEntity<Crew> invalidateSession(HttpServletRequest request, HttpServletBean response) {
+	public HttpStatus invalidateSession(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("I got here...");
 		HttpSession session = request.getSession(false);
 		if(request.isRequestedSessionIdValid() && session != null) {
 			logger.info(" invalidateSession | Session invalidation...");
 			SecurityContextHolder.clearContext();
 			session.invalidate();
 		} else {
-			new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return HttpStatus.NOT_FOUND;
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return HttpStatus.OK;
 	}
 	
 	@RequestMapping("/user")
