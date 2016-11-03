@@ -1,5 +1,5 @@
 cmsBackoffice.controller('panelCtrl',
-		function($rootScope, $scope, $http, $location, profile) {
+		function($rootScope, $scope, $http, $location) {
 
 	
 });

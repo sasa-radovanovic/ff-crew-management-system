@@ -1,13 +1,24 @@
 package com.frequentflyer.cms.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
+
+/**
+ * 
+ * Airplane Type model
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class AirplaneType  {
 
 	@Id
     private String id;
 
     private String manufacturer;
+    
+    @Indexed
     private String type;
 
     public AirplaneType() {}

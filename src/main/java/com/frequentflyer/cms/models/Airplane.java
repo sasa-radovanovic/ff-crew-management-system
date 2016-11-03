@@ -2,6 +2,13 @@ package com.frequentflyer.cms.models;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * 
+ * Airplane model
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class Airplane {
 	
 	@Id

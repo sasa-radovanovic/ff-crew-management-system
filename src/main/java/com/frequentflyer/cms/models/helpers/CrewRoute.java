@@ -1,5 +1,13 @@
 package com.frequentflyer.cms.models.helpers;
 
+/**
+ * 
+ * Helper entity (not mapped to database)
+ * Glue layer for frontend presentation
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class CrewRoute {
 
 	private String routeId;

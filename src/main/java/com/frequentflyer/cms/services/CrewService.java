@@ -40,9 +40,7 @@ public class CrewService {
 	
 	
 	public Crew createCrew(Crew newCrew) {
-		logger.info("createCrew | before hasing password " + newCrew.getPassword());
 		newCrew.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(newCrew.getPassword()));
-		logger.info("createCrew | after hasing password " + newCrew.getPassword());
 		Crew savedCrew = crewRepository.save(newCrew);
 		return savedCrew;
 	}

@@ -7,6 +7,14 @@ import org.springframework.data.annotation.Id;
 
 import com.frequentflyer.cms.Constants;
 
+
+/**
+ * 
+ * Route model
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class Route {
 
 	@Id

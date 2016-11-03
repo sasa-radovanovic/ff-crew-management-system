@@ -1,9 +1,11 @@
 Manifest-Version: 1.0
 Implementation-Title: crew-management-system
 Implementation-Version: 1.0.0
-Built-By: sasar
+Built-By: rsasa
 Implementation-Vendor-Id: com.frequentflyer.cms
-Build-Jdk: 1.8.0_91
+Build-Jdk: 1.8.0_31
+Implementation-URL: http://projects.spring.io/spring-boot/frequent-fly
+ er/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 

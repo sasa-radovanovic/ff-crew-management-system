@@ -1,5 +1,12 @@
 package com.frequentflyer.cms;
 
+/**
+ * 
+ * Util class holding constants
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class Constants {
 	
 	public static final String CREW_FLIGHT_CREW = "flight_crew";

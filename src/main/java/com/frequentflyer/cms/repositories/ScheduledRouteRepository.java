@@ -7,6 +7,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.frequentflyer.cms.models.ScheduledRoute;
 
+/**
+ * 
+ * Repository for handing scheduled routes
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public interface ScheduledRouteRepository  extends MongoRepository<ScheduledRoute, String> {
 
 	List<ScheduledRoute> findByNameLike(String name);

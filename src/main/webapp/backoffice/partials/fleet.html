@@ -152,20 +152,17 @@
 </script>
 
 
-
 <header class="header">
 	<ul class="header-subnav">
 		<li><a href="/backoffice#/schedule">Schedule</a></li>
 		<!-- class="is-active"  -->
-		<li><a class="is-active">Fleet</a></li>
-		<li><a href="#">Active flights</a></li>
-		<li><a href="#">History</a></li>
-		<li><a href="#">Crew database</a></li>
-		<li><a href="#">System logs</a></li>
-		<li><a ng-click="logout()">Logout</a></li>
+		<li><a class="is-active" href="/backoffice#/fleet">Fleet</a></li>
+		<li><a href="/backoffice#/flights">Active flights</a></li>
+		<li><a ng-click="notImplemented()">History</a></li>
+		<li><a href="/backoffice#/crew">Crew database</a></li>
+		<li><a ng-click="notImplemented()">System logs</a></li>
 	</ul>
 </header>
-
 
 <div class="row main-content-holder">
 	<h4>Our fleet <button class="button pull-right-button" ng-click="addNewAirplane()"><i class="fi-check"></i> Add new airplane</button></h4>

@@ -8,6 +8,14 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.frequentflyer.cms.models.Route;
 
+
+/**
+ * 
+ * Repository for handing routes
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public interface RouteRepository extends MongoRepository<Route, String> {
 
 	public List<Route> findByDeparture(String departure);

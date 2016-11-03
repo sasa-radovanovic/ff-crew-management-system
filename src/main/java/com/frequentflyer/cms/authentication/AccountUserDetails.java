@@ -9,6 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.frequentflyer.cms.Constants;
 import com.frequentflyer.cms.models.Crew;
 
+/**
+ * 
+ * AccountUserDetails Implements Spring Security UserDetails concept
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class AccountUserDetails implements UserDetails {
 
 	/**
@@ -22,6 +29,9 @@ public class AccountUserDetails implements UserDetails {
 		this.account = userDet;
 	}
 
+	/**
+	 * Generates granted authorities
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		GrantedAuthority authority = generateGrantedAuthority(account);
@@ -60,6 +70,13 @@ public class AccountUserDetails implements UserDetails {
 		return true;
 	}
 
+	/**
+	 * 
+	 * Based on data from DB creates authorities
+	 * 
+	 * @param Crew - document from DB
+	 * @return
+	 */
 	public GrantedAuthority generateGrantedAuthority (Crew crew) {
 		GrantedAuthority authority;
 		if (crew.getCrewType().equalsIgnoreCase(Constants.CREW_ADMIN)) {

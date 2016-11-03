@@ -4,6 +4,14 @@ import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
 
+
+/**
+ * 
+ * Scheduled Route model
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class ScheduledRoute {
 	
 	@Id

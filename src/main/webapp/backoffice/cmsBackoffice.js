@@ -57,8 +57,8 @@ cmsBackoffice.config(['$routeProvider', '$locationProvider',
 }]);
 
 
-cmsBackoffice.run(['$http', '$location', '$window', '$q', 'profileFactory', 
-         function(http, location, window, q, profileFactory) {
+cmsBackoffice.run(['$http', '$location', '$window', '$q', 'profileFactory', '$rootScope', 
+         function(http, location, window, q, profileFactory, rootScope) {
 	  profileFactory.getProfile().then(function (data) {
 		  if (data != undefined && data.authorities != undefined && data.authorities.length > 0 
 				  && data.authorities[0].authority == 'ADMIN') {
@@ -69,4 +69,8 @@ cmsBackoffice.run(['$http', '$location', '$window', '$q', 'profileFactory',
 			  return;
 		  }
 	  });
+	  
+	  rootScope.notImplemented = function () {
+	        alert("Not implemented yet!");
+	  };
 }]);

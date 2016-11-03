@@ -5,6 +5,13 @@ import java.util.HashMap;
 
 import com.frequentflyer.cms.models.ScheduledRoute;
 
+/**
+ * 
+ * Helper entity (not mapped to database) 
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class SortedScheduledRoutes {
 	
 	private HashMap<Integer, ArrayList<ScheduledRoute>> sortedMap;

@@ -7,6 +7,13 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.frequentflyer.cms.models.helpers.CrewRoute;
 
+/**
+ * 
+ * Crew model
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public class Crew {
 	
 	@Id

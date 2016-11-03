@@ -9,6 +9,13 @@ import org.springframework.stereotype.Component;
 import com.frequentflyer.cms.models.Crew;
 import com.frequentflyer.cms.services.CrewService;
 
+/**
+ * 
+ * User Details service implementation
+ * 
+ * @author Sasa Radovanovic 
+ *
+ */
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 

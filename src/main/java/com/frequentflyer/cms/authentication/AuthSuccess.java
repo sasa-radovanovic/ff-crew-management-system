@@ -10,6 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * Auth Success handler
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 @Component
 public class AuthSuccess extends SimpleUrlAuthenticationSuccessHandler{
 

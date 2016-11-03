@@ -11,6 +11,14 @@ import org.springframework.data.mongodb.repository.Query;
 
 import com.frequentflyer.cms.models.Crew;
 
+
+/**
+ * 
+ * Repository for handing crew operations
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 public interface CrewRepository extends MongoRepository<Crew, String> {
 
 	List<Crew> findByFirstNameLike(String name);

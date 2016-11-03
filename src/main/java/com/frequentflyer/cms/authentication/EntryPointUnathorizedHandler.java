@@ -10,6 +10,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * Entry Point Unathorized handler
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 @Component
 public class EntryPointUnathorizedHandler implements AuthenticationEntryPoint{
 

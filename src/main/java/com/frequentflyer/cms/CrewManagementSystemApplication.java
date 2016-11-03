@@ -25,14 +25,20 @@ import com.frequentflyer.cms.repositories.RouteRepository;
 import com.frequentflyer.cms.repositories.ScheduledRouteRepository;
 import com.frequentflyer.cms.services.CrewService;
 
-
+/**
+ * 
+ * Main Application Entry point
+ * 
+ * @author Sasa Radovanovic
+ *
+ */
 @SpringBootApplication
 public class CrewManagementSystemApplication implements CommandLineRunner {
 
 	Logger logger = LoggerFactory.getLogger(CrewManagementSystemApplication.class);
 
 	@Autowired
-	private AirplaneTypeRepository repository;
+	private AirplaneTypeRepository airplaneTypeRepository;
 
 	@Autowired
 	private RouteRepository routeRepository;
@@ -56,159 +62,166 @@ public class CrewManagementSystemApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		logger.debug("--- Removing all data from collections...");
 
-		repository.deleteAll();
-
-		// save a couple of customers
-		repository.save(new AirplaneType("Airbus", "A380"));
-		repository.save(new AirplaneType("Boeing", "747-800"));
-
-		// fetch all customers
-		System.out.println("Airplane Type found with findAll():");
-		System.out.println("-------------------------------");
-		for (AirplaneType airplane : repository.findAll()) {
-			System.out.println(airplane);
-		}
-		System.out.println();
-
-		// fetch an individual customer
-		System.out.println("Airplane Type found with findByManufacturer('Airbus'):");
-		System.out.println("--------------------------------");
-		for (AirplaneType airplane : repository.findByManufacturer("Airbus")) {
-			System.out.println(airplane);
-		}
-
-
-		System.out.println("Airplane Type found with findByManufacturer('Airbus'):");
-		System.out.println("--------------------------------");
-		System.out.println(repository.findByType("747-800"));
-
-		System.out.println("DATABASE TEST");
-		System.out.println("--------------------------------");
+		airplaneTypeRepository.deleteAll();
 		routeRepository.deleteAll();
 		scheduledRouteRepository.deleteAll();
 		airplaneRepository.deleteAll();
 		crewRepository.deleteAll();
 
-		AirplaneType airplaneType = repository.findByType("A380");
+		logger.debug(">>> Data cleared");
+		
+		
+		logger.debug("--- Adding airplane types...");
+		airplaneTypeRepository.save(new AirplaneType("Airbus", "A320"));
+		airplaneTypeRepository.save(new AirplaneType("Airbus", "A319"));
+		airplaneTypeRepository.save(new AirplaneType("ATR", "72-500"));
+		airplaneTypeRepository.save(new AirplaneType("ATR", "72-200"));
+		airplaneTypeRepository.save(new AirplaneType("Boeing", "737-300"));
+		airplaneTypeRepository.save(new AirplaneType("Airbus", "A330-200"));
+		logger.debug(">>> Airplane types added");
 
-		Airplane airplane = new Airplane(airplaneType, "A6-EEC", 580, "05/12/2012", "MSN1250");
-		Airplane airplane2 = new Airplane(airplaneType, "A6-EEF", 580, "10/10/2008", "MSN810");
+		// Add A330 to the fleet
+		logger.debug("--- Adding A330s");
+		AirplaneType airplaneType_A330 = airplaneTypeRepository.findByType("A330-200");
+		Airplane YU_ARA = new Airplane(airplaneType_A330, "YU-ARA", 254, "11/05/2016", "885");
+		airplaneRepository.save(YU_ARA);
 
-		AirplaneType airplaneType2 = repository.findByType("747-800");
+		// Add A320s to the fleet
+		logger.debug("--- Adding A320s");
+		AirplaneType airplaneType_A320 = airplaneTypeRepository.findByType("A320");
+		Airplane YU_APG = new Airplane(airplaneType_A320, "YU-APG", 155, "11/03/2014", "2587");
+		Airplane YU_APH = new Airplane(airplaneType_A320, "YU-APH", 155, "31/03/2014", "2645");
+		airplaneRepository.save(YU_APG);
+		airplaneRepository.save(YU_APH);
+		
+		// Add A319s to the fleet
+		logger.debug("--- Adding A319s");
+		AirplaneType airplaneType_A319 = airplaneTypeRepository.findByType("A319");
+		Airplane YU_API = new Airplane(airplaneType_A319, "YU-API", 128, "28/10/2013", "1140");
+		Airplane YU_APJ = new Airplane(airplaneType_A319, "YU-APJ", 128, "18/07/2014", "1159");
+		Airplane YU_APA = new Airplane(airplaneType_A319, "YU-APA", 128, "06/03/2014", "2277");
+		Airplane YU_APB = new Airplane(airplaneType_A319, "YU-APB", 128, "29/04/2014", "2296");
+		Airplane YU_APD = new Airplane(airplaneType_A319, "YU-APD", 128, "28/08/2014", "2335");
+		Airplane YU_APC = new Airplane(airplaneType_A319, "YU-APC", 128, "07/10/2013", "2621");
+		Airplane YU_APE = new Airplane(airplaneType_A319, "YU-APE", 128, "01/11/2013", "3252");
+		Airplane YU_APF = new Airplane(airplaneType_A319, "YU-APF", 128, "01/12/2013", "3317");
+		airplaneRepository.save(YU_API);
+		airplaneRepository.save(YU_APJ);
+		airplaneRepository.save(YU_APA);
+		airplaneRepository.save(YU_APB);
+		airplaneRepository.save(YU_APD);
+		airplaneRepository.save(YU_APC);
+		airplaneRepository.save(YU_APE);
+		airplaneRepository.save(YU_APF);
+		
+		// Add 737s to the fleet
+		logger.debug("--- Adding 737s");
+		AirplaneType airplaneType_B737 = airplaneTypeRepository.findByType("737-300");
+		Airplane YU_AND = new Airplane(airplaneType_B737, "YU-AND", 134, "01/08/2013", "23329");
+		Airplane YU_ANI = new Airplane(airplaneType_B737, "YU-ANI", 134, "01/08/2013", "23416");
+		Airplane YU_ANK = new Airplane(airplaneType_B737, "YU-ANK", 134, "01/08/2013", "23715");
+		airplaneRepository.save(YU_AND);
+		airplaneRepository.save(YU_ANI);
+		airplaneRepository.save(YU_ANK);
+		
+		
+		// Add ATRs to the fleet
+		logger.debug("--- Adding ATRs");
+		AirplaneType airplaneType_ATR75 = airplaneTypeRepository.findByType("72-500");
+		Airplane YU_ALU = new Airplane(airplaneType_ATR75, "YU-ALU", 66, "01/08/2013", "536");
+		Airplane YU_ALT = new Airplane(airplaneType_ATR75, "YU-ALT", 66, "01/08/2013", "555");
+		Airplane YU_ALV = new Airplane(airplaneType_ATR75, "YU-ALV", 66, "01/08/2013", "727");
+		airplaneRepository.save(YU_ALU);
+		airplaneRepository.save(YU_ALT);
+		airplaneRepository.save(YU_ALV);
+		AirplaneType airplaneType_ATR72 = airplaneTypeRepository.findByType("72-200");
+		Airplane YU_ALN = new Airplane(airplaneType_ATR72, "YU-ALN", 66, "01/08/2013", "180");
+		Airplane YU_ALO = new Airplane(airplaneType_ATR72, "YU-ALO", 66, "01/08/2013", "186");
+		Airplane YU_ALP = new Airplane(airplaneType_ATR72, "YU-ALP", 66, "01/08/2013", "189");
+		airplaneRepository.save(YU_ALN);
+		airplaneRepository.save(YU_ALO);
+		airplaneRepository.save(YU_ALP);
 
-		Airplane airplane3 = new Airplane(airplaneType2, "A6-AAB", 495, "05/12/2012", "MSN1259");
-		Airplane airplane4 = new Airplane(airplaneType2, "A6-AA7", 495, "10/10/2008", "MSN8107");
 
-		airplaneRepository.save(airplane);
-		airplaneRepository.save(airplane2);
-		airplaneRepository.save(airplane3);
-		airplaneRepository.save(airplane4);
+		logger.debug(">>> Airplanes added");
 
-		logger.info("----------- SAVED AIRPLANES");
-
-		logger.info("1 : " + airplaneRepository.findByRegistrationLike("A6-EEC").toString());
-
-		logger.info("2 : " + airplaneRepository.findByRegistrationLike("A6-EEF").toString());
-
-		logger.info("----------------------------");
-
+		logger.debug("--- Adding Monday, Wednesday and Friday Scheduled Route to JFK");
 		ArrayList<Integer> daysOfTheWeek = new ArrayList<>();
 		daysOfTheWeek.add(1);
+		daysOfTheWeek.add(3);
 		daysOfTheWeek.add(5);
-		ScheduledRoute scheduledRoute = new ScheduledRoute("Summer Service to SYD", 
-				airplaneType, daysOfTheWeek, "BEG", "SYD", "10:00", "21:00", 14.50);
+		ScheduledRoute scheduledRoute = new ScheduledRoute("Summer work days to JFK", 
+				airplaneType_A330, daysOfTheWeek, "BEG", "JFK", "10:00", "16:00", 10.00);
 
 		scheduledRouteRepository.save(scheduledRoute);
+		logger.debug(">>> Scheduled route added");
 
-		logger.info("----------- SAVED SCHEDULED ROUTE");
-
-		logger.info("1 : " + scheduledRouteRepository.findByNameLike("SYD").get(0).toString());
-
-		logger.info("----------------------------");
-
-		Airplane airplaneInDB = airplaneRepository.findByRegistrationLike("A6-EEC");
+		
+		logger.debug("--- Adding specific flights [one to JFK and one to BKK]");
+		Airplane airplaneInDB = airplaneRepository.findByRegistrationLike("YU-ARA");
 
 		HashMap<String, ArrayList<String>> crewsMap = new HashMap<String, ArrayList<String>>();
 		crewsMap.put(Constants.CREW_FLIGHT_CREW, new ArrayList<>());
 		crewsMap.put(Constants.CREW_CABIN_CREW, new ArrayList<>());
 		Route route = new Route(airplaneInDB.getId(), 
-				"DXB", "SYD", 14.50, crewsMap, "10/10/2016 10:00", "21:00", "EK612");
+				"BEG", "JFK", 10.00, crewsMap, "09/01/2017 10:00", "16:00", "JU500");
 
 		Route route2 = new Route(airplaneInDB.getId(), 
-				"DXB", "HKG", 8.50, crewsMap, "10/10/2016 09:00", "17:30", "EK112");
+				"BEG", "BKK", 9.50, crewsMap, "10/01/2017 08:00", "17:30", "JU550");
 
 		routeRepository.save(route);
-
 		routeRepository.save(route2);
 
-		logger.info("----------- SAVED ROUTE");
+		logger.debug(">>> Routes added");
 
-		logger.info("1 : " + routeRepository.findByDeparture("DXB").get(0).toString());
 
-		logger.info("2 : " + routeRepository.findByDeparture("DXB").get(1).toString());
-
-		logger.info("----------------------------");
-
-		Crew crew1 = new Crew("Sasa", "Radovanovic", "rsasa", "fiorentina2", "sasa1kg@yahoo.com", 
+		logger.debug("--- Adding dummy crew to DB");
+		Crew crew1 = new Crew("Sasa", "Radovanovic", "rsasa", "airserbia", "sasa1kg@yahoo.com", 
 				true, new ArrayList<CrewRoute>(), Constants.CREW_FLIGHT_CREW, new ArrayList<String>(), "RS", "00001001");
 
 		Crew crew2 = new Crew("Sasa 1", "Radovanovic 2", "admin", "admin", "admin@yahoo.com", 
 				true, new ArrayList<CrewRoute>(), Constants.CREW_ADMIN, new ArrayList<String>(), "RS", "00001002");
 
-		Crew crew3 = new Crew("Sasa3", "Radovanovic", "rsasa3", "fiorentina2", "sasa1kg3@yahoo.com", 
-				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001001");
+		Crew crew3 = new Crew("Sasa3", "Radovanovic", "rsasa3", "airserbia", "sasa1kg3@yahoo.com", 
+				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001003");
 
-		Crew crew4 = new Crew("Sasa 4", "Radovanovic 2", "rsasa4", "admin", "admin4@yahoo.com", 
-				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001002");
+		Crew crew4 = new Crew("Sasa 4", "Radovanovic 2", "rsasa4", "airserbia", "admin4@yahoo.com", 
+				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001004");
 
-		Crew crew5 = new Crew("Sasa 5", "Radovanovic", "rsasa5", "fiorentina2", "sasa1kg4@yahoo.com", 
-				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001001");
+		Crew crew5 = new Crew("Sasa 5", "Radovanovic", "rsasa5", "airserbia", "sasa1kg4@yahoo.com", 
+				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001005");
 
-		Crew crew6 = new Crew("Sasa 6", "Radovanovic 2", "rsasa6", "admin", "admin5@yahoo.com", 
-				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001002");
+		Crew crew6 = new Crew("Sasa 6", "Radovanovic 2", "rsasa6", "airserbia", "admin5@yahoo.com", 
+				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001006");
 
-		Crew crew7 = new Crew("Sasa 7", "Radovanovic", "rsasa7", "fiorentina2", "sasa1kg6@yahoo.com", 
-				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001001");
+		Crew crew7 = new Crew("Sasa 7", "Radovanovic", "rsasa7", "airserbia", "sasa1kg6@yahoo.com", 
+				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001007");
 
-		Crew crew8 = new Crew("Sasa 8", "Radovanovic 2", "rsasa8", "admin", "admin7@yahoo.com", 
-				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001002");
-
+		Crew crew8 = new Crew("Sasa 8", "Radovanovic 2", "rsasa8", "airserbia", "admin7@yahoo.com", 
+				true, new ArrayList<CrewRoute>(), Constants.CREW_CABIN_CREW, new ArrayList<String>(), "RS", "00001008");
 
 		crewService.createCrew(crew1);
-
 		crewService.createCrew(crew2);
-
 		crewService.createCrew(crew3);
-
 		crewService.createCrew(crew4);
-
 		crewService.createCrew(crew5);
-
 		crewService.createCrew(crew6);
-
 		crewService.createCrew(crew7);
-
 		crewService.createCrew(crew8);
 
-		logger.info("----------- SAVED CREW");
+		logger.debug(">>> Crew added");
 
-		logger.info("1 : " + crewRepository.findByFirstNameLike("Sasa").get(0).toString());
 
-		logger.info("2 : " + crewRepository.findByFirstNameLike("Sasa").get(1).toString());
-
-		logger.info("----------------------------");
-
-		logger.info("----------- UPDATE CREW");
+		logger.debug("--- Test crew update");
 
 		Page<Crew> pageC = crewRepository.findAllByCrewType(Constants.CREW_CABIN_CREW, new PageRequest(0, 10));
 
-
 		for (Crew crew : pageC) {
 			Crew crewToUpd = crew;
-			logger.info("Assign crew " + crew.getId());
-
-			Route routeFromRepo = routeRepository.findByDeparture("DXB").get(0);
+			Route routeFromRepo = routeRepository.findByDeparture("BEG").get(0);
 
 			CrewRoute crewRoute = new CrewRoute(routeFromRepo.getId(), 
 					routeFromRepo.getLocalDepartureTime(), 
@@ -234,82 +247,12 @@ public class CrewManagementSystemApplication implements CommandLineRunner {
 			routeRepository.save(routeFromRepo);
 
 		}
+		
+		logger.debug(">>> Crew updated");
 
-		logger.info("1 : " + crewRepository.findByFirstNameLike("Sasa").get(0).toString());
-
-		logger.info("----------------------------");
-
-		logger.info("------------ PAGING THE CREW");
-
-		Page<Crew> crews = crewService.getPageCabinCrew(0);
-
-		int i = 1;
-		logger.info("PAGE 1");
-		for (Crew crew : crews) {
-			logger.info(i + " >>>>> " +  crew.getUsername());
-			i++;
-		}
-
-		Page<Crew> crews2 = crewService.getPageCabinCrew(1);
-		int j = 1;
-		logger.info("PAGE 2");
-		for (Crew crew : crews2) {
-			logger.info(j + " >>>>> " +  crew.getUsername());
-			j++;
-		}
-
-		logger.info("SIZE CABIN CREW: " + crewService.getCrewSize(Constants.CREW_CABIN_CREW));
-		logger.info("SIZE FLIGHT CREW: " + crewService.getCrewSize(Constants.CREW_FLIGHT_CREW));
-
-		logger.info("----------------------------");
-
-		logger.info("----------------------------");
-		logger.info("------------ PAGING THE CREW ADVANCED");
-
-		Page<Crew> crewsAdv = crewService.getPageCabinCrewByFirstName("Sasa", 0);
-
-		logger.info("Number of elements " + crewsAdv.getNumberOfElements());
-
-		logger.info("Total elements " + crewsAdv.getTotalElements());
-
-		logger.info("Total pages " + crewsAdv.getTotalPages());
-
-		int t = 1;
-		logger.info("PAGE 1");
-		for (Crew crew : crewsAdv) {
-			logger.info(t + " >>>>> " +  crew.getUsername());
-			t++;
-		}
-
-		logger.info("----------------------------");
-
-		logger.info("----------------------------");
-		logger.info("----------------------------");
-		logger.info("   Find by IDs in the list   ");
-
-		Crew crew_0 = crewRepository.findByFirstNameLike("Sasa").get(0);
-		Crew crew_1 = crewRepository.findByFirstNameLike("Sasa").get(1);
-
-		logger.info("Add search " + crew_0.getId());
-		logger.info("Add search " + crew_1.getId());
-		logger.info("----------------------------");
-
-		ArrayList<String> crewIds = new ArrayList<>();
-		crewIds.add(crew_0.getId());
-		crewIds.add(crew_1.getId());
-
-		ArrayList<Crew> crewList = (ArrayList<Crew>) crewService.findAllByArrayIDs(crewIds);
-
-		int p = 1;
-		for (Crew crew : crewList) {
-			logger.info("FOUND " + p + " --- " + crew.getFirstName() + " " + crew.getId());
-			p++;
-		}
-
-
-		logger.info("----------------------------");
-		logger.info("----------------------------");
-		//routeRepository.save(new Route("BEG", "JFK", airplaneType, 6.5));
+		logger.info("-------------------------------------");
+		logger.info("--- CMS SET");
+		logger.info("-------------------------------------");
 
 	}
 }
