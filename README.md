@@ -1,5 +1,6 @@
 # ff-crew-management-system (Frequent Flyers Crew Management System)
-Crew Management System for airlines
+
+[Wireframes/pages - how it looks like when deployed](http://sasa-radovanovic.github.io/cms.html)
 
 First of all - **this is not commercial application and is still work in progress**. This web service emulates crew management process at a commercial airline. It consists of a backoffice (access limited only to administration personel) and crew portal (access for every crew).
 
@@ -86,7 +87,7 @@ Prototype Pattern |  |
 
 ### Use cases and printscreens
 
-Application-go-through will be available soon.
+Application-go-through available on [link](http://sasa-radovanovic.github.io/cms.html)
 
 ### Tests
 
